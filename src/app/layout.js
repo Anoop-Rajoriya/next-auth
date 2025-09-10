@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="flex flex-col min-h-screen">{children}</main>
+        <main className="flex flex-col min-h-screen px-2">{children}</main>
       </body>
     </html>
   );
