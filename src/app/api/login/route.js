@@ -9,7 +9,7 @@ import connectDB from "@/database/connectDB";
 
 export async function POST(req) {
   const { email, password } = await req.json();
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   await connectDB();
   try {
     // validate user
