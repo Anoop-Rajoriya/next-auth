@@ -1,6 +1,6 @@
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function validateUser(fields, type) {
+export function validateUser(fields, type="login") {
   const errors = {};
 
   if (type === "signup") {

@@ -29,8 +29,14 @@ function page() {
   async function onLogin(event) {
     event.preventDefault();
     setLoginState("loading");
+    setError(null);
+    setErrors({
+      name: null,
+      email: null,
+      password: null,
+    });
     try {
-      const res = await axios.post("/api/register", user);
+      await axios.post("/api/register", user);
       setLoginState("successful");
       router.push("/login");
     } catch (error) {
@@ -40,7 +46,7 @@ function page() {
         if (errorMessage) {
           setError("Error: " + errorMessage);
         }
-        if (Object.keys(error).length > 0) {
+        if (Object.keys(error).length) {
           setErrors((pre) => ({ ...pre, ...errors }));
         }
       } else {

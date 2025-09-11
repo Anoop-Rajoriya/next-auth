@@ -43,7 +43,7 @@ export async function POST(req) {
 
     return ApiResponse.success("User signUp successfully");
   } catch (error) {
-    console.error("Register Route Error: ", error);
-    return ApiResponse.error("Server internal Error", {}, 500);
+    console.error("Register Route error: ", error);
+    return ApiResponse.error("Server internal error", {}, 500);
   }
 }
