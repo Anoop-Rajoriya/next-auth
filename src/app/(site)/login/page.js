@@ -1,11 +1,13 @@
 "use client";
-
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Input from "@/components/Input";
 import FormButton from "@/components/FormButton";
 
 function page() {
+  const router = useRouter();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -20,8 +22,34 @@ function page() {
   const onInput = (name, value) =>
     setUser((pre) => ({ ...pre, [name]: value }));
 
-  function onSubmit(event) {
+  async function onSubmit(event) {
     event.preventDefault();
+    setFormState("loading");
+    setError(null);
+    setErrors({
+      name: null,
+      password: null,
+    });
+    try {
+      await axios.post("/api/login", user);
+      setFormState("successful");
+      router.push("/");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.message;
+        const errors = error.response?.data?.errors;
+
+        if (errorMessage) {
+          setError("Error: " + errorMessage);
+        }
+        if (Object.keys(errors).length) {
+          setErrors((pre) => ({ ...pre, ...errors }));
+        }
+      } else {
+        setError("Error: " + error.message);
+      }
+      setFormState("enable");
+    }
   }
 
   useEffect(
@@ -40,11 +68,16 @@ function page() {
 
   return (
     <div className="w-full max-w-md p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-md mx-auto my-8">
+      {/* Title */}
       <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-6">
         Sign in to Your Account
       </h2>
 
+      {/* Error */}
+      {error && <p className="text-red-400 capitalize p-2">{error}</p>}
+
       <form onSubmit={onSubmit} className="space-y-5">
+        {/* Name */}
         <Input
           type="email"
           name="email"
@@ -53,15 +86,18 @@ function page() {
           onChange={onInput}
           error={errors.email}
         />
+
+        {/* Password */}
         <Input
           type="password"
           name="password"
           label="Your password"
           value={user.password}
           onChange={onInput}
-          error={errors.email}
+          error={errors.password}
         />
 
+        {/* Forgot Link */}
         <div className="flex items-center justify-between text-sm">
           <label className="flex items-center space-x-2 text-gray-600 dark:text-gray-300">
             <input
@@ -77,8 +113,11 @@ function page() {
             Forgot password?
           </Link>
         </div>
+
+        {/* Login Button */}
         <FormButton type="submit" label="Login" formState={formState} />
       </form>
+
       {/* Divider */}
       <div className="mt-6 flex items-center justify-center">
         <span className="text-sm text-gray-600 dark:text-gray-400">
