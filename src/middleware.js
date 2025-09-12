@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export default async function middleware(req) {
   const cookieStore = await cookies();
   const authToken = cookieStore.get("authToken");
-  const privateRoutes = ["/api/logout", "/profile"];
+  const privateRoutes = ["/api/logout", "/api/me", "/profile"];
   const publicRoutes = ["/api/login", "/api/register", "/login", "/register"];
 
   // Handle private-only routes
@@ -23,6 +23,7 @@ export const config = {
     "/api/login",
     "/api/register",
     "/api/logout",
+    "/api/me",
     "/login",
     "/register",
     "/profile",
