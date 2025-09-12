@@ -5,9 +5,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Input from "@/components/Input";
 import FormButton from "@/components/FormButton";
+import { useAuth } from "@/components/AuthProvider";
 
 function page() {
   const router = useRouter();
+  const { loginUser } = useAuth();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -32,6 +34,7 @@ function page() {
     });
     try {
       await axios.post("/api/login", user);
+      await loginUser();
       setFormState("successful");
       router.push("/");
     } catch (error) {
