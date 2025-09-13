@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import ApiResponse from "./utils/ApiResponse";
 
 export default async function middleware(req) {
   const cookieStore = await cookies();
@@ -8,12 +9,20 @@ export default async function middleware(req) {
   const publicRoutes = ["/api/login", "/api/register", "/login", "/register"];
 
   // Handle private-only routes
-  if (privateRoutes.includes(req.nextUrl.pathname) && !authToken.value) {
+  if (
+    privateRoutes.includes(req.nextUrl.pathname) &&
+    authToken &&
+    !authToken.value
+  ) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
   // Handle public-only routes
-  if (publicRoutes.includes(req.nextUrl.pathname) && authToken.value) {
+  if (
+    publicRoutes.includes(req.nextUrl.pathname) &&
+    authToken &&
+    authToken.value
+  ) {
     return NextResponse.redirect(new URL("/profile", req.url));
   }
 }
