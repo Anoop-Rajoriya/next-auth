@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <main className="flex flex-col min-h-screen px-2">
+        <main className="flex flex-col min-h-screen">
           <AuthProvider>{children}</AuthProvider>
         </main>
       </body>

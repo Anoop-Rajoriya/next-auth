@@ -18,8 +18,13 @@ export default function AuthProvider({ children }) {
     setLoading(true);
     try {
       const user = await axios.get("/api/me");
-      setUser(user);
+      setUser({
+        ...user.data.data,
+        createdAt: new Date(user.data.data.createdAt).toLocaleString(),
+        updatedAt: new Date(user.data.data.updatedAt).toLocaleString(),
+      });
     } catch (error) {
+      console.error("AuthProvider error: ", error);
       setUser(null);
     } finally {
       setLoading(false);
@@ -35,6 +40,7 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     if (user) return;
+
     (async function () {
       await loginUser();
     })();
