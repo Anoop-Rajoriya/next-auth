@@ -36,7 +36,7 @@ function page() {
       await axios.post("/api/login", user);
       await loginUser();
       setFormState("successful");
-      router.push("/");
+      router.push("/profile");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.message;
@@ -70,7 +70,7 @@ function page() {
   );
 
   return (
-    <div className="w-full max-w-md p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-md mx-auto my-8">
+    <main className="w-full max-w-md p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-md mx-auto my-8">
       {/* Title */}
       <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-6">
         Sign in to Your Account
@@ -133,7 +133,7 @@ function page() {
           </Link>
         </span>
       </div>
-    </div>
+    </main>
   );
 }
 

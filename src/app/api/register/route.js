@@ -1,4 +1,6 @@
 import bcrypt from "bcryptjs";
+import sendMail from "@/utils/mailer";
+import { createToken } from "@/utils/token";
 
 import ApiResponse from "@/utils/ApiResponse";
 import { validateUser } from "@/utils/validaters";
@@ -35,11 +37,26 @@ export async function POST(req) {
     const passHash = await bcrypt.hash(password, salt);
 
     // user creation
-    const user = await User.create({ name, email, password: passHash });
+    const user = await User.create({
+      name,
+      email,
+      password: passHash,
+    });
 
     if (!user) {
       return ApiResponse.error("Failed to create user");
     }
+
+    const verificationToken = createToken({ id: user._id });
+    user.verificationToken = verificationToken;
+    await user.save();
+
+    await sendMail({
+      to: user.email,
+      subject: "Account Verification",
+      text: "Click link to verify your account",
+      html: `<a href="http:${process.env.DOMAIN}/verify-account/${user.verificationToken.token}">Verify Account</a>`,
+    });
 
     return ApiResponse.success("User signUp successfully");
   } catch (error) {

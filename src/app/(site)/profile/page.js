@@ -109,12 +109,6 @@ function Page() {
 
               {/* Action buttons */}
               <div className="flex flex-wrap gap-4 pt-4 border-t">
-                <Link
-                  href="/verify-user"
-                  className="flex-1 py-2 px-4 bg-green-600 hover:bg-green-700 text-white text-center rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-green-500"
-                >
-                  Verify User
-                </Link>
                 <button className="flex-1 py-2 px-4 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-yellow-500">
                   Forgot Password
                 </button>

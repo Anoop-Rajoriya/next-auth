@@ -10,7 +10,8 @@ export async function GET(req) {
   try {
     const cookie = cookieStore.get("authToken");
 
-    if (!cookie.value) return ApiResponse.error("Not authenticated");
+    if (!cookie || !cookie.value) return ApiResponse.error("Not authenticated");
+
     const decode = jwt.verify(cookie.value, process.env.JWT_SECERET);
 
     const user = await User.findOne({

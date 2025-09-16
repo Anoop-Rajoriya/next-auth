@@ -27,6 +27,11 @@ export async function POST(req) {
     if (!match) {
       return ApiResponse.error("Invalid password or email");
     }
+
+    // verification check
+    if (!user.isVarified) {
+      return ApiResponse.error("Account not verified, check your email inbox");
+    }
     // generate accessToken
     const authToken = jwt.sign(
       { id: user._id, email: user.email },

@@ -18,13 +18,16 @@ export default function AuthProvider({ children }) {
     setLoading(true);
     try {
       const user = await axios.get("/api/me");
-      setUser({
-        ...user.data.data,
-        createdAt: new Date(user.data.data.createdAt).toLocaleString(),
-        updatedAt: new Date(user.data.data.updatedAt).toLocaleString(),
-      });
+
+      if (user.data?.data) {
+        setUser({
+          ...user.data.data,
+          createdAt: new Date(user.data.data.createdAt).toLocaleString(),
+          updatedAt: new Date(user.data.data.updatedAt).toLocaleString(),
+        });
+      }
     } catch (error) {
-      console.error("AuthProvider error: ", error);
+      console.log("AuthProvider error: ", error);
       setUser(null);
     } finally {
       setLoading(false);
