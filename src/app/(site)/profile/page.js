@@ -109,9 +109,12 @@ function Page() {
 
               {/* Action buttons */}
               <div className="flex flex-wrap gap-4 pt-4 border-t">
-                <button className="flex-1 py-2 px-4 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                  Forgot Password
-                </button>
+                <Link
+                  href="/forget-password"
+                  className="text-center flex-1 py-2 px-4 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                >
+                  Forget Password
+                </Link>
                 <button className="flex-1 py-2 px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-red-500">
                   Delete Account
                 </button>
