@@ -10,8 +10,6 @@ export async function POST(req) {
 
     const decode = decodeToken(token);
 
-    console.log("token", decode);
-
     const user = await User.findOne({ _id: decode?.id });
 
     if (!user) {
@@ -34,6 +32,7 @@ export async function POST(req) {
     }
 
     user.isVarified = true;
+    user.verificationToken = { token: "", expiry: undefined };
     await user.save();
 
     return ApiResponse.success("User verificaiton successful");

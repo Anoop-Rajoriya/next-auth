@@ -4,11 +4,35 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
+import FormButton from "@/components/FormButton";
+import Input from "@/components/Input";
 
 function Page() {
   const { token } = useParams();
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState(null);
+  const [form, setForm] = useState({
+    email: "",
+    error: null,
+    status: "enable",
+  });
+
+  const onInput = (_, value) => setForm((pre) => ({ ...pre, email: value }));
+
+  const resend = (e) => {
+    e.preventDefault();
+    setForm((pre) => ({ ...pre, status: "loading" }));
+    axios.post("/api/resend-verification", { email: form.email })
+      .then(() => {
+        setForm((pre) => ({ ...pre, status: "successful" }));
+      })
+      .catch((err) => {
+        const message = err.response.data.message || err.message;
+        setForm((pre) => ({ ...pre, status: "enable" }));
+        setError(message);
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     // Example verification flow
@@ -22,17 +46,17 @@ function Page() {
         })
         .catch((err) => {
           const status = err.status;
+          const message = err.response?.data?.message || err.message;
+          console.log(err);
           if (status === 410) {
             setStatus("already");
           } else {
             setStatus("unverified");
-            setError(err.message);
+            setError(message);
           }
         });
     }
   }, [token]);
-
-  const onClick = () => {};
 
   return (
     <main className="w-full max-w-md p-8 bg-white dark:bg-gray-900 rounded-2xl shadow-md mx-auto my-8">
@@ -42,7 +66,7 @@ function Page() {
       </h2>
 
       {/* Error */}
-      {error && <p className="text-red-400 capitalize p-2">{error}</p>}
+      {error && <p className="text-red-400 capitalize py-2">{error}</p>}
 
       {/* States */}
       {status === "loading" && (
@@ -82,12 +106,21 @@ function Page() {
       )}
 
       {status === "unverified" && (
-        <button
-          onClick={onClick}
-          className="w-full px-4 py-2 rounded-lg font-medium focus:outline-none focus:ring-2 transition-colors bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
-        >
-          Resend Verificaiton Link
-        </button>
+        <form className="space-y-5" onSubmit={resend}>
+          <Input
+            value={form.email}
+            onChange={onInput}
+            error={form.error}
+            type="email"
+            label="Registered Email"
+            name="email"
+          />
+          <FormButton
+            type="submit"
+            label="Resend Verification Link"
+            formState={form.status}
+          />
+        </form>
       )}
     </main>
   );
