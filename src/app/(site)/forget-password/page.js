@@ -5,7 +5,7 @@ import Input from "@/components/Input";
 import axios from "axios";
 import React, { useState } from "react";
 
-function page() {
+function Page() {
   const [form, setForm] = useState({
     email: "",
     emailError: null,
@@ -69,4 +69,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

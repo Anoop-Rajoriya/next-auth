@@ -7,7 +7,7 @@ import Input from "@/components/Input";
 import FormButton from "@/components/FormButton";
 import { useAuth } from "@/components/AuthProvider";
 
-function page() {
+function Page() {
   const router = useRouter();
   const { loginUser } = useAuth();
   const [user, setUser] = useState({
@@ -137,4 +137,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

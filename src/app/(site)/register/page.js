@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
 import FormButton from "@/components/FormButton";
 
-function page() {
+function Page() {
   const router = useRouter();
   const [user, setUser] = useState({
     name: "",
@@ -134,4 +134,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
