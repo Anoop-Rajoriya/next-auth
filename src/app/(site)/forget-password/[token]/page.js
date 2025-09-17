@@ -89,17 +89,6 @@ function Page() {
             formState={form.status}
           />
         </form>
-
-        {/* Back to login */}
-        <p className="mt-6 text-sm text-center text-gray-500 dark:text-gray-400">
-          Remember your password?{" "}
-          <a
-            href="/login"
-            className="text-indigo-600 hover:underline dark:text-indigo-400"
-          >
-            Log in
-          </a>
-        </p>
       </div>
     </main>
   );
